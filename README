@@ -1,0 +1,1 @@
+This project user `contect` package, in every service that makes a call to the database, we send the `context.Context` object, too, to handle whether the request takes long time to be executed or not. Because at some points user might try to send requests to the `API` without connecting to a proper connection, which might cause the waste of server data usage.
