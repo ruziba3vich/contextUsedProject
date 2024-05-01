@@ -6,7 +6,8 @@ import (
 	"time"
 )
 
-var Page int = 20
+var page int = 20
+var next = 20
 
 func GetTwits(db *sql.DB) (twits []TwitResponse, e error) {
 	query := `
@@ -17,7 +18,7 @@ func GetTwits(db *sql.DB) (twits []TwitResponse, e error) {
 	ctx, cancelFunc := context.WithTimeout(context.Background(), time.Millisecond*300)
 	defer cancelFunc()
 
-	rows, err := db.QueryContext(ctx, query, Page)
+	rows, err := db.QueryContext(ctx, query, page)
 	if err != nil {
 		return nil, err
 	}
@@ -38,7 +39,9 @@ func GetTwits(db *sql.DB) (twits []TwitResponse, e error) {
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
-
+	for range next {
+		page++
+	}
 	return twits, nil
 }
 
